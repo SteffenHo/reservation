@@ -1,0 +1,49 @@
+.free {
+    background-color: green;
+    color: white;
+}
+
+.partially-free {
+    background-color: orange;
+}
+
+.reservert {
+    background-color: red;
+    color: white;
+}
+
+.you-reservert {
+    background-color: greenyellow;
+}
+
+.choose-date {
+    background-color: lightgrey;
+}
+
+.you-reservert-other {
+    background-color: gray;
+    color: white;
+}
+
+.monitor {
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    background-color: aqua;
+    height: 60px;
+    width: 80px;
+    margin: auto;
+}
+
+.keyboard {
+    border-width: 2px;
+    border-color: white;
+    border-style: solid;
+    background-color: black;
+    height: 20px;
+    width: 80px;
+    transform: skew(-45deg);
+    position: relative;
+    right: 10px;
+    margin: auto;
+}

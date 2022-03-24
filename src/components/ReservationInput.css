@@ -1,0 +1,14 @@
+.form {
+    padding: 10px;
+    width: 90%;
+    margin: auto;
+}
+
+.dropdown {
+    width: 25%;
+}
+
+.button {
+    margin: 5px;
+    width: 10%;
+}

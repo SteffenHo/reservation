@@ -1,12 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
-import { BootstrapCard } from './components/Card'
+import {BootstrapCard} from './components/Card'
 import {Row, Col} from 'react-bootstrap'
- 
+import {MainContent} from './components/MainContent'
+
+
 function App() {
   return (
-    <div className="App">
-      <h1>Hallo Martin!</h1>
+    <div className='App'>
+      <MainContent/>
+    </div>
+  );
+}
+
+export default App;
+
+/*<div className="App">
       <p>Willkommen in deiner ersten React Application.</p>
       <p>Hier kannst du mit HTML, CSS, JS und React deine Projekt umsetzt.</p>
       <Row>
@@ -26,8 +35,4 @@ function App() {
           <BootstrapCard title="Bootstrap Card" link="https://react-bootstrap.github.io/components/cards/" />
         </Col>
       </Row>
-    </div>
-  );
-}
-
-export default App;
+  </div>*/
