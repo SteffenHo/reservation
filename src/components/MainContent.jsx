@@ -40,13 +40,13 @@ export class MainContent extends React.Component {
     }
 
     /* Diese Methode setzt bei drücken des Ok-Knopfes die Werte name, dateFrom und dateTo im state zu dem Werten wie
-    sie im values-state gespeichert sind. Zudem wandelt sie die Daten in Tage seit dem 01.01.1970 um.*/
+    sie im values-state gespeichert sind. */
     onSubmitDataInput() {
         console.log("call MainContent onSubmitDataInput");
         this.setState(state => ({
             name: state.values.name,
-            dateFrom: Math.floor(new Date(state.values.dateFrom).getTime() / 86400000),
-            dateTo: Math.floor(new Date(state.values.dateTo).getTime() / 86400000)
+            dateFrom: new Date(state.values.dateFrom).getTime(),
+            dateTo: new Date(state.values.dateTo).getTime()
         }))
         console.log("State:", this.state);
     }
@@ -64,9 +64,12 @@ export class MainContent extends React.Component {
     /* Diese Methode reserviert einen Arbeitsplatz für eine Person beim drücken des Knopfes reservieren. */
     newReservation() {
         console.log("call MainContent newReservation")
+        let dateFrom = Math.floor(this.state.dateFrom / 86400000);
+        let dateTo = Math.floor(this.state.dateTo / 86400000);
         let reservations = JSON.parse(JSON.stringify(this.state.reservations));
-        for (let i = this.state.dateFrom; i <= this.state.dateTo; i++) {
-            reservations[parseInt(this.state.selectedPc)][i] = this.state.name;
+        for (let i = dateFrom; i <= dateTo; i++) {
+            let day = i * 86400000;
+            reservations[parseInt(this.state.selectedPc)][day] = this.state.name;
         }
 
         this.setState({
@@ -75,11 +78,14 @@ export class MainContent extends React.Component {
     }
 
     /* Diese Methode storniert einen Arbeitsplatz beim drücken des Knopfes Stornieren. */
-    cancleReservation(name, dateFrom) {
+    cancleReservation() {
         console.log("call MainContent cancleReservation");
+        let dateFrom = Math.floor(this.state.dateFrom / 86400000);
+        let dateTo = Math.floor(this.state.dateTo / 86400000);
         let reservations = JSON.parse(JSON.stringify(this.state.reservations));
-        for (let i = this.state.dateFrom; i <= this.state.dateTo; i++) {
-            delete reservations[parseInt(this.state.selectedPc)][i];
+        for (let i = dateFrom; i <= dateTo; i++) {
+            let day = i * 86400000;
+            delete reservations[parseInt(this.state.selectedPc)][day];
         }
 
         this.setState({
@@ -114,11 +120,11 @@ export class MainContent extends React.Component {
 /*
 Aufbau von states:
 name: der Name des Benutzers
-dateFrom: das Anfangsdatum des ausgewählten Zeitraumes in Tagen seit 01.01.1970
-dateTo: das Enddatum des ausgewöhlten Zeitraumes in Tagen seit 01.01.1970
+dateFrom: das Anfangsdatum
+dateTo: das Enddatum
 selectedPc: der ausgewählte Arbeitsplatz
-values: ein Objekt für die nochnicht bestätigten Angaben zu name, dateFrom und dateTo; dateFrom und -To als string
+values: ein Objekt für die nochnicht bestätigten Angaben zu name, dateFrom und dateTo
 reservations: eine Objekt welches für jeden Arbeitsplatz ein Objekt mit einzelen Tagen enthält,
-    die werte in diesem Objekt sind ist der Name des jenigen der den Arbeitsplatz reserviert hat,
+    die Werte in diesem Objekt sind ist der Name des jenigen der den Arbeitsplatz reserviert hat,
     wenn keine Reservierung vorliegt ist der Tag nicht vorhanden
 */

@@ -1,6 +1,7 @@
 import React from "react";
 import { RoomView } from "./RoomView";
 import { ReservationInput } from "./ReservationInput";
+import { UserReservations } from "./UserReservations";
 
 /* Diese Component enthält die Übersichtsgrafik und die Auswahlelement unten, sie dient zur Verwaltung dieser. */
 export class ReservationSelector extends React.Component {
@@ -19,6 +20,8 @@ export class ReservationSelector extends React.Component {
     hasAlreadyMakeAReservation() {
         console.log("call ReservationSelector hasAlreadyMakeAReservation");
         let reservations = this.props.reservations;
+        let dateFrom = Math.floor(this.props.dateFrom / 86400000);
+        let dateTo = Math.floor(this.props.dateTo / 86400000);
         let result = {
             maked: false,
             pc: 0
@@ -26,9 +29,10 @@ export class ReservationSelector extends React.Component {
         for (let i = 1; i <= 12; i++) {
             let finished = false;
             let pc = reservations[i];
-            for (let j = this.props.dateFrom; j <= this.props.dateTo; j++) {
-                console.log("j in pc:", j in pc);
-                if (j in pc && pc[j] == this.props.name) {
+            for (let j = dateFrom; j <= dateTo; j++) {
+                let day = j * 86400000;
+                console.log("day in pc:", day in pc);
+                if (day in pc && pc[day] == this.props.name) {
                     result.maked = true;
                     result.pc = i;
                     finished = true;
@@ -47,27 +51,18 @@ export class ReservationSelector extends React.Component {
     nonFreePcs() {
         console.log("call ReservationSelector nonFreePcs");
         let result = {};
-        let dateFrom = this.props.dateFrom;
-        let dateTo = this.props.dateTo;
+        let dateFrom = Math.floor(this.props.dateFrom / 86400000);
+        let dateTo = Math.floor(this.props.dateTo / 86400000);
         let reservations = this.props.reservations;
         for (let i = 1; i <= 12; i++) {
             let pc = reservations[i];
-            let state = dateFrom in pc ? "reserverd" : "free";
+            let state = this.props.dateFrom in pc ? "reserverd" : "free";
             for (let j = dateFrom + 1; j <= dateTo; j++) {
-                if ((j in pc && state != "reserverd") || (!(j in pc) && state == "reserverd")) {
+                let day = j * 86400000;
+                if ((day in pc && state != "reserverd") || (!(day in pc) && state == "reserverd")) {
                     state = "partiallyFree";
                 }
             }
-            /*
-            for (let j = this.props.dateFrom; j <= this.props.dateTo; j++) {
-                if (j in reservations[i]) {
-                    state = "reserverd";
-                } else if (state == "reserverd") {
-                    state = "partiallyFree";
-                    break;
-                }
-            }
-            */
             result[i] = state;
         }
         return result;
@@ -99,6 +94,10 @@ export class ReservationSelector extends React.Component {
                 <RoomView 
                     pcStates={allPcStates}
                     onChangePc={this.props.onChangePc}
+                />
+                <UserReservations
+                    reservations={this.props.reservations}
+                    name={this.props.name}
                 />
                 <ReservationInput 
                     onChangePc={this.props.onChangePc}
