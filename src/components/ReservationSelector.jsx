@@ -10,6 +10,9 @@ export class ReservationSelector extends React.Component {
         this.hasAlreadyMakeAReservation = this.hasAlreadyMakeAReservation.bind(this);
         this.nonFreePcs = this.nonFreePcs.bind(this);
         this.getAllPcStates = this.getAllPcStates.bind(this);
+        this.getReservations = this.getReservations.bind(this);
+        this.getNamesOfReservations = this.getNamesOfReservations.bind(this);
+        this.getDaysOfReservation = this.getDaysOfReservation.bind(this);
     }
 
     shouldComponentUpdate(nextProps) {
@@ -87,13 +90,66 @@ export class ReservationSelector extends React.Component {
         return pcs;
     }
 
+    getNamesOfReservations(pc) {
+        console.log("call ReservationSelector getNameOfReservations");
+        let result = [];
+        let reservations = this.props.reservations[pc];
+        for (const day in reservations) {
+            if (this.props.dateFrom <= day && day <= this.props.dateTo) {
+                result.push(reservations[day]);
+            }
+        }
+        return result;
+    }
+
+    getDaysOfReservation(pc) {
+        console.log("call ReservationSelector getDaysOfReservations");
+        let result = [];
+        let part2 = [];
+        let reservations = this.props.reservations[pc];
+        let dayFrom = Math.floor(this.props.dateFrom / 86400000);
+        let dayTo = Math.floor(this.props.dateTo / 86400000);
+        for (let i = dayFrom; i <= dayTo; i++) {
+            let day = i * 86400000;
+            if (day in reservations) {
+                let date = new Date(parseInt(day)).toISOString().split("T")[0].split("-");
+                let dayMonthYear = date[2] + "." + date[1] + "." + date[0];
+                result.push(dayMonthYear);
+                part2.push(day);
+            }
+        }
+        return {
+            dates: result,
+            timestamps: part2
+        }
+    }
+
+    getReservations(states) {
+        console.log("call ReservationSelector getReservations");
+        let result = {}
+        let pcs = states;
+        for (let i = 1; i <= 12; i++) {
+            result[i] = {}
+            if (pcs[i] == "reserverd") {
+                result[i].names = "Reserviert von: " + this.getNamesOfReservations(i).join(", ");
+            } else if (pcs[i] == "partiallyFree") {
+                let days = this.getDaysOfReservation(i);
+                result[i].dates = "Reserviert am: " + days.dates.join(", ")
+                result[i].timestamps = days.timestamps;
+            }
+        }
+        return result;
+    }
+
     render() {
         let allPcStates = this.getAllPcStates();
+        let filterdReservations = this.getReservations(allPcStates);
         return (
             <div>
                 <RoomView 
                     pcStates={allPcStates}
                     onChangePc={this.props.onChangePc}
+                    filterdReservations={filterdReservations}
                 />
                 <UserReservations
                     reservations={this.props.reservations}

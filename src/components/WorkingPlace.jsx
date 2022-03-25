@@ -17,6 +17,7 @@ export const WorkingPlace = (props) => {
                 <ListGroupItem className={props.pcState.className}>{props.pcState.text}</ListGroupItem>
             </ListGroup>
             <Card.Body>
+                <p>{props.reservationInfo}</p>
                 <Button variant='primary' value={props.pcNumber} onClick={props.onChangePc}>Auswählen</Button>
             </Card.Body>
         </Card>
