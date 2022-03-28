@@ -36,7 +36,7 @@ export class UserReservations extends React.Component {
             <div>
                 {reservations.visible && 
                 <p>
-                    Sie haben bereits folgende Arbeitsplätze reserviert: {
+                    Du hast bereits folgende Arbeitsplätze reserviert: {
                         reservations.reservations.join(", ")
                     }
                 </p>}

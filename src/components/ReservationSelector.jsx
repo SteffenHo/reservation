@@ -150,6 +150,9 @@ export class ReservationSelector extends React.Component {
                     pcStates={allPcStates}
                     onChangePc={this.props.onChangePc}
                     filterdReservations={filterdReservations}
+                    newReservation={this.props.newReservationRoomView}
+                    dateFrom={this.props.dateFrom}
+                    dateTo={this.props.dateTo}
                 />
                 <UserReservations
                     reservations={this.props.reservations}

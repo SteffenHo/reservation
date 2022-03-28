@@ -26,6 +26,7 @@ export class MainContent extends React.Component {
         this.onChangePc = this.onChangePc.bind(this);
         this.newReservation = this.newReservation.bind(this);
         this.cancleReservation = this.cancleReservation.bind(this);
+        this.newReservationRoomView = this.newReservationRoomView.bind(this);
     }
     
     /* Diese Methode setzt denn in stat angegebenen state auf den in value angegebenen Wert. */
@@ -77,6 +78,16 @@ export class MainContent extends React.Component {
         })
     }
 
+    newReservationRoomView(day, pc) {
+        console.log("call MainContent newReservationRoomView");
+        let reservations = JSON.parse(JSON.stringify(this.state.reservations));
+        reservations[pc][day] = this.state.name;
+
+        this.setState({
+            reservations: reservations
+        })
+    }
+
     /* Diese Methode storniert einen Arbeitsplatz beim drücken des Knopfes Stornieren. */
     cancleReservation() {
         console.log("call MainContent cancleReservation");
@@ -111,6 +122,7 @@ export class MainContent extends React.Component {
                     new={this.newReservation}
                     cancle={this.cancleReservation}
                     reservations={this.state.reservations}
+                    newReservationRoomView={this.newReservationRoomView}
                 />               
             </div>
         )
