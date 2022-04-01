@@ -18,5 +18,5 @@ export const InputWithLabel = ({
             <Form.Control type="text" onChange={onChange} value={value} required /> 
             : <Form.Control type="text" onChange={onChange} value={value} />}
         </Form.Group>
-    )
+    );
 }

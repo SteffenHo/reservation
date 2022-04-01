@@ -2,13 +2,15 @@ import logo from './logo.svg';
 import './App.css';
 import { BootstrapCard } from './components/Card'
 import {Row, Col} from 'react-bootstrap'
-import { InputWithLabel } from './components/InputWithLabel';
 import { CreateNewForm } from './components/CreateNewForm';
+import { AddDependenciesForm } from './components/AddDependenciesForm';
  
 function App() {
   return (
     <div className="App">
       <CreateNewForm />
+      <AddDependenciesForm />
+      <div className="heigth-div" />
     </div>
   );
 }

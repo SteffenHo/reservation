@@ -17,5 +17,5 @@ export const SelectWithLabel = ({
             </Form.Label>
             <Select options={options} onChange={onChange} value={options[value]} />
         </Form.Group>
-    )
+    );
 }
