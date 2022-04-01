@@ -4,14 +4,19 @@ import './form.css';
 
 export const InputWithLabel = ({
     controlId,
-    labelText
+    labelText,
+    isRequired,
+    onChange,
+    value
 }) => {
     return (
         <Form.Group controlId={controlId} className="input">
             <Form.Label>
                 {labelText}
             </Form.Label>
-            <Form.Control type={"text"} />
+            {isRequired ? 
+            <Form.Control type="text" onChange={onChange} value={value} required /> 
+            : <Form.Control type="text" onChange={onChange} value={value} />}
         </Form.Group>
     )
 }

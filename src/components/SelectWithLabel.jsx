@@ -6,17 +6,16 @@ import './form.css'
 export const SelectWithLabel = ({
     controlId,
     labelText,
-    options
+    options,
+    onChange,
+    value
 }) => {
     return (
         <Form.Group controlId={controlId} className="input">
             <Form.Label>
                 {labelText}
             </Form.Label>
-            <Select options={[
-                {value: 1, label: "A"},
-                {value: 2, label: "B"}
-            ]} />
+            <Select options={options} onChange={onChange} value={options[value]} />
         </Form.Group>
     )
 }
