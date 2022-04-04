@@ -20,10 +20,10 @@ export const ProductView = ({
                 <p>
                     Externe Patner: {product.extranalPatners}, Involvierte Fachbereiche: {product.otherDepartments}
                 </p>
-                <ListGroup>
-                    {depenencies}
-                </ListGroup>
             </Card.Text>
+            <ListGroup>
+                {depenencies}
+            </ListGroup>
         </Card>
     );
 }

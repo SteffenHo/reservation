@@ -1,50 +1,77 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import './form.css';
 import { MultiSelectDependencies } from "./MultiSelectDependencies";
 import { ProductSearchBar } from "./ProductSearchBar";
 
-export class AddDependenciesForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedProduct: 0
+export const AddDependenciesForm = () => {
+    const [selectedProduct, setSelectedProduct] = useState(0);
+    const [options, setOptions] = useState([]);
+    const [dependenciesOptions, setDependenciesOptions] = useState([]);
+    const [dependenciesValue, setDependenciesValue] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const rawResponse = await fetch("http://localhost:3000/product");
+            const content = await rawResponse.json();
+            console.log(content);
+            const products = content.map(json => ({
+                value: json.id,
+                label: json.name
+            }));
+            setOptions(products);
         }
-        this.onChangeSelectedProduct = this.onChangeSelectedProduct.bind(this);
-        this.onChangeDependency = this.onChangeDependency.bind(this);
-    }
+        fetchData()
+    }, []);
 
-    onChangeSelectedProduct(event) {
-        this.setState({
-            selectedProduct: event.value
-        });
-    }
+    useEffect(() => {
+        const fetchData = async () => {
+            const route = "http://localhost:3000/product/" + selectedProduct + "/dependencies";
+            const rawResponse = await fetch(route);
+            let content = [];
+            if (rawResponse.status === 200) {
+                const rawContent = await rawResponse.json();
+                content = rawContent.dependencies;
+            }
+            console.log(content);
 
-    onChangeDependency(event) {
-        console.log(event);
-    }
+            const products = options.filter(product => product.value !== selectedProduct);
+            let defaults = [];
+            for (let i = 0; i < content.length; i++) {
+                for (let j = 0; j < products.length; j++) {
+                    if (content[i] == products[j].value) {
+                        defaults.push(products[j]);
+                    }
+                }
+            }
+            console.log(defaults);
+            setDependenciesOptions(products);
+            setDependenciesValue(defaults);
+        }
+        fetchData();
+    }, [selectedProduct]);
 
-    render() {
-        return (
-            <div className="form-header">
-                <h4>
-                    Abhängigkeiten hinzufügen / ändern
-                </h4>
-                <p>
-                    Zum hinzufügen und ändern von Abhängigkeiten in dem oberen Suchfeld das Produkt / den Service
-                    auswählen und im unteren Suchfeld die Abhängigkeiten eingeben.
-                </p>
-                <ProductSearchBar 
-                    controlId={"addDependencySearch"} 
-                    labelText={"Produkt / Service"} 
-                    onChange={this.onChangeSelectedProduct} 
-                />
-                <MultiSelectDependencies
-                    controlId={"addDependencyMultiSelect"}
-                    labelText={"Abhängigkeiten"}
-                    selectedProduct={this.state.selectedProduct}
-                    onChange={this.onChangeDependency}
-                />
-            </div>
-        )
-    }
+    return (
+        <div className="form-header">
+            <h4>
+                Abhängigkeiten hinzufügen / ändern
+            </h4>
+            <p>
+            Zum hinzufügen und ändern von Abhängigkeiten in dem oberen Suchfeld das Produkt / den Service auswählen und 
+            im unteren Suchfeld die Abhängigkeiten eingeben.
+            </p>
+            <ProductSearchBar 
+                controlId={"addDependencySearch"} 
+                labelText={"Produkt / Service"} 
+                onChange={event => {setSelectedProduct(event.value)}}
+                options={options} 
+            />
+            <MultiSelectDependencies
+                controlId={"addDependencyMultiSelect"}
+                labelText={"Abhängigkeiten"}
+                onChange={event => {setDependenciesValue(event)}}
+                options={dependenciesOptions}
+                value={dependenciesValue}
+            />
+        </div>
+    );
 }

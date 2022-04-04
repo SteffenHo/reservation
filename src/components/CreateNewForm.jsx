@@ -116,12 +116,13 @@ export class CreateNewForm extends React.Component {
 
         const optionsServiceLevel = [
             {value: 0, label: "Bitte auswählen"},
-            {value: 1, label: "1"},
-            {value: 2, label: "2"},
-            {value: 3, label: "3"},
-            {value: 4, label: "4"},
-            {value: 5, label: "n/a"},
-            {value: 6, label: "zu klären"}
+            {value: 1, label: "1 - Koord. & Weiter- & Eigenentwicklung"},
+            {value: 2, label: "2 - Koord. & Weiterentwicklung"},
+            {value: 3, label: "3 - nur Koordination"},
+            {value: 4, label: "4 - offen"},
+            {value: 5, label: "5 - keine Interaktion"},
+            {value: 6, label: "n/a"},
+            {value: 7, label: "zu klären"}
         ];
 
         return (

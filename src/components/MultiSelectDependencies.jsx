@@ -1,35 +1,25 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import './form.css';
-import AsyncSelect from "react-select/async";
+import Select from "react-select";
 import { getAllProducts } from "./repo";
 
 export const MultiSelectDependencies = ({
     controlId,
     labelText,
-    selectedProduct,
-    onChange
+    onChange,
+    options,
+    value
 }) => {
-
-    async function filterSelectedProduct() {
-        //console.log(selectedProduct);
-        //if (selectedProduct === 0) {
-        //    return [];
-        //}
-        let products = await getAllProducts();
-        return products.filter(product => product.value != selectedProduct);
-    }
-
     return (
         <Form.Group className="input" controlId={controlId}>
             <Form.Label>
                 {labelText}
             </Form.Label>
-            <AsyncSelect 
-                loadOptions={filterSelectedProduct}
+            <Select 
+                options={options}
+                value={value}
                 onChange={onChange}
-                cacheOptions
-                defaultOptions
                 isMulti
             />
         </Form.Group>
