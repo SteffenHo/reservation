@@ -4,12 +4,14 @@ import { BootstrapCard } from './components/Card'
 import {Row, Col} from 'react-bootstrap'
 import { CreateNewForm } from './components/CreateNewForm';
 import { AddDependenciesForm } from './components/AddDependenciesForm';
+import { SearchProduct } from './components/SearchProduct';
  
 function App() {
   return (
     <div className="App">
       <CreateNewForm />
       <AddDependenciesForm />
+      <SearchProduct />
       <div className="heigth-div" />
     </div>
   );
