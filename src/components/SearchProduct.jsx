@@ -1,17 +1,6 @@
-import React from "react";
-import { Badge, ListGroup } from "react-bootstrap";
+import React, {useEffect, useState} from "react";
 import { ProductSearchBar } from "./ProductSearchBar";
 import { ProductView } from "./ProductView";
-
-const testProduct = {
-    name: "Name",
-    category: "Kategorie",
-    department: "Fachbereich",
-    serviceLevel: "Servicelevel",
-    description: "Beschreibung",
-    extranalPatners: "keine",
-    otherDepartments: "keine"
-}
 
 const testDependencies = [
     {
@@ -36,23 +25,38 @@ const testDependencies = [
     }
 ];
 
-let listElements = testDependencies.map((item, index) => {
-    return (
-        <ListGroup.Item key={index}>
-            <div>
-                <h6>
-                    <strong>{item.name}</strong>
-                </h6>
-                {item.department}
-            </div>
-            <Badge bg="primary" pill>
-                {item.serviceLevel}
-            </Badge>
-        </ListGroup.Item>
-    )
-});
-
 export const SearchProduct = () => {
+    const [searchOptions, setSearchOptions] = useState([]);
+    const [selectedProduct, setSelectedProduct] = useState(0);
+    const [product, setProduct] = useState({});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const rawResponse = await fetch("http://localhost:3000/product");
+            const content = await rawResponse.json();
+            console.log(content);
+            const products = content.map(json => ({
+                value: json.id,
+                label: json.name
+            }));
+            setSearchOptions(products);
+        }
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const route = "http://localhost:3000/product/" + selectedProduct;
+            const rawResponse = await fetch(route);
+            let content = {};
+            if (rawResponse.status === 200) {
+                content = await rawResponse.json();
+            }
+            setProduct(content);
+        }
+        fetchData();
+    }, [selectedProduct])
+
     return (
         <div>
             <h4>
@@ -64,11 +68,12 @@ export const SearchProduct = () => {
             <ProductSearchBar
                 controlId={"searchProductSearchBar"}
                 labelText={"Produkt / Service"}
-                onChange={event => {}}
+                onChange={event => {setSelectedProduct(event.value)}}
+                options={searchOptions}
             />
             <ProductView
-                product={testProduct}
-                depenencies={listElements}
+                product={product}
+                depenencies={testDependencies}
             />
         </div>
     )

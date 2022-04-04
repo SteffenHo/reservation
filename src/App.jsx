@@ -5,6 +5,7 @@ import {Row, Col} from 'react-bootstrap'
 import { CreateNewForm } from './components/CreateNewForm';
 import { AddDependenciesForm } from './components/AddDependenciesForm';
 import { SearchProduct } from './components/SearchProduct';
+import 'bootstrap/dist/css/bootstrap.min.css';
  
 function App() {
   return (

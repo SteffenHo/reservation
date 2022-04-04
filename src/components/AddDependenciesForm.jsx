@@ -38,7 +38,7 @@ export const AddDependenciesForm = () => {
             let defaults = [];
             for (let i = 0; i < content.length; i++) {
                 for (let j = 0; j < products.length; j++) {
-                    if (content[i] == products[j].value) {
+                    if (content[i] === products[j].value) {
                         defaults.push(products[j]);
                     }
                 }
