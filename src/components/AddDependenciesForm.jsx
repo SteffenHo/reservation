@@ -68,7 +68,25 @@ export const AddDependenciesForm = () => {
             <MultiSelectDependencies
                 controlId={"addDependencyMultiSelect"}
                 labelText={"Abhängigkeiten"}
-                onChange={event => {setDependenciesValue(event)}}
+                onChange={event => {
+                    setDependenciesValue(event);
+                    (async () => {
+                        const route = "http://localhost:3000/product/" + selectedProduct + "/dependencies";
+                        const rawResponse = await fetch(route, {
+                            method: 'PUT',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                dependencies: event.map(item => item.value)
+                            })
+                        });
+                        const content = await rawResponse.json();
+                      
+                        console.log(content);
+                    })();
+                }}
                 options={dependenciesOptions}
                 value={dependenciesValue}
             />
