@@ -2,7 +2,6 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import './form.css';
 import Select from "react-select";
-import { getAllProducts } from "./repo";
 
 export const MultiSelectDependencies = ({
     controlId,

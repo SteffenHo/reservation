@@ -1,6 +1,5 @@
 import React from "react";
 import './form.css'
-import { getAllProducts } from "./repo";
 import Select from 'react-select'
 import { Form } from "react-bootstrap";
 
