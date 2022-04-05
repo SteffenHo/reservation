@@ -6,6 +6,7 @@ import { CreateNewForm } from './components/CreateNewForm';
 import { AddDependenciesForm } from './components/AddDependenciesForm';
 import { SearchProduct } from './components/SearchProduct';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { UpdateProduct } from './components/UpdateProduct';
  
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <CreateNewForm />
       <AddDependenciesForm />
       <SearchProduct />
+      <UpdateProduct />
       <div className="heigth-div" />
     </div>
   );

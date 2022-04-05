@@ -40,6 +40,7 @@ export const SearchProduct = () => {
             let route = "http://localhost:3000/product/" + selectedProduct + "/dependencies";
             let rawResponse = await fetch(route);
             if (rawResponse.status !== 200) {
+                setDependencies([]);
                 return;
             }
             let content = await rawResponse.json();
