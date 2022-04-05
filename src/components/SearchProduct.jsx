@@ -2,33 +2,11 @@ import React, {useEffect, useState} from "react";
 import { ProductSearchBar } from "./ProductSearchBar";
 import { ProductView } from "./ProductView";
 
-const testDependencies = [
-    {
-        name: "Hello World",
-        department: "Test",
-        serviceLevel: "1"
-    },
-    {
-        name: "Hello World",
-        department: "Test2",
-        serviceLevel: "1"
-    },
-    {
-        name: "Hello World",
-        department: "Test3",
-        serviceLevel: "1"
-    },
-    {
-        name: "Hello World",
-        department: "Test4",
-        serviceLevel: "1"
-    }
-];
-
 export const SearchProduct = () => {
     const [searchOptions, setSearchOptions] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(0);
     const [product, setProduct] = useState({});
+    const [dependencies, setDependencies] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,7 +33,30 @@ export const SearchProduct = () => {
             setProduct(content);
         }
         fetchData();
-    }, [selectedProduct])
+    }, [selectedProduct]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            let route = "http://localhost:3000/product/" + selectedProduct + "/dependencies";
+            let rawResponse = await fetch(route);
+            if (rawResponse.status !== 200) {
+                return;
+            }
+            let content = await rawResponse.json();
+            const dependencyIds = content.dependencies;
+            let dependencies = []
+            for (let i = 0; i < dependencyIds.length; i++) {
+                route = "http://localhost:3000/product/" + dependencyIds[i];
+                rawResponse = await fetch(route);
+                if (rawResponse.status === 200) {
+                    content = await rawResponse.json();
+                    dependencies.push(content);
+                }
+            }
+            setDependencies(dependencies);
+        }
+        fetchData();
+    }, [selectedProduct]);
 
     return (
         <div>
@@ -73,8 +74,8 @@ export const SearchProduct = () => {
             />
             <ProductView
                 product={product}
-                depenencies={testDependencies}
+                depenencies={dependencies}
             />
         </div>
-    )
+    );
 }

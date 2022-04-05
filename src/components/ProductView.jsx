@@ -22,7 +22,7 @@ export const ProductView = ({
 }) => {
     const listElements = depenencies.map((item, index) => {
         return (
-            <ListGroup.Item key={index}>
+            <ListGroup.Item key={index} className="d-flex justify-content-between align-items-start">
                 <div>
                     <h6>
                         <strong>{item.name}</strong>
