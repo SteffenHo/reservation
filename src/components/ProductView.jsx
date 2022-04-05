@@ -18,11 +18,12 @@ const serviceLevel = {
 
 export const ProductView = ({
     product,
-    depenencies
+    depenencies,
+    onClick
 }) => {
     const listElements = depenencies.map((item, index) => {
         return (
-            <ListGroup.Item key={index} className="d-flex justify-content-between align-items-start">
+            <ListGroup.Item key={index} className="d-flex justify-content-between align-items-start" eventKey={item.id}>
                 <div>
                     <h6>
                         <strong>{item.name}</strong>
@@ -38,12 +39,12 @@ export const ProductView = ({
     if ("name" in product) {
         let productCategory = product.category;
         let productServiceLevel = product.serviceLevel;
-        let productPartners = product.extranalPatners;
+        let productPartners = product.extrenalPatners;
         let productDepartments = product.otherDepartments;
         console.log(productCategory, productServiceLevel, productPartners);
         const productcategory = productService[productCategory];
         const productserviceLevel = serviceLevel[productServiceLevel];
-        const productextranalPatners = productPartners ? productPartners : "keine";
+        const productextrenalPatners = productPartners ? productPartners : "keine";
         const productotherDepartments = productDepartments  ? productDepartments : "keine";
         return (
             <Card>
@@ -58,10 +59,10 @@ export const ProductView = ({
                         {product.description}
                     </p>
                     <p>
-                        Externe Patner: {productextranalPatners}, Involvierte Fachbereiche: {productotherDepartments}
+                        Externe Patner: {productextrenalPatners}, Involvierte Fachbereiche: {productotherDepartments}
                     </p>
                 </Card.Text>
-                <ListGroup>
+                <ListGroup onClick={onClick}>
                     {listElements}
                 </ListGroup>
             </Card>

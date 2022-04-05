@@ -76,6 +76,7 @@ export const SearchProduct = () => {
             <ProductView
                 product={product}
                 depenencies={dependencies}
+                onClick={event => setSelectedProduct(parseInt(event.target.attributes[0].value))}
             />
         </div>
     );
