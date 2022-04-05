@@ -62,6 +62,32 @@ export const UpdateProduct = () => {
         fetchData();
     }, [selectedProduct]);
 
+    const fetchProductUpdate = (event) => {
+        event.preventDefault();
+        (async () => {
+            const body = {
+                id: selectedProduct,
+                name: name,
+                category: category,
+                description: description,
+                department: department,
+                serviceLevel: serviceLevel,
+                externalPatners: externalPatners,
+                otherDepartments: otherDepartments
+            }
+            const rawResponse = await fetch("http://localhost:3000/product", {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+            const content = await rawResponse.json();
+            console.log(content);
+        })();
+    }
+
     return (
         <div>
             <h4>
@@ -76,7 +102,7 @@ export const UpdateProduct = () => {
                 onChange={event => setSelectedProduct(event.value)}
                 options={searchOptions}
             />
-            <Form className="form" onSubmit={event => {event.preventDefault()}}>
+            <Form className="form" onSubmit={event => fetchProductUpdate(event)}>
                 <InputWithLabel 
                     controlId={"updateName"} 
                     labelText={"Name"} 
