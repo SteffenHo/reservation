@@ -1,6 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { ProductSearchBar } from "./ProductSearchBar";
 import { ProductView } from "./ProductView";
+import { Row, Col } from 'react-bootstrap'
+import './form.css';
+
+
 
 export const SearchProduct = () => {
     const [searchOptions, setSearchOptions] = useState([]);
@@ -46,9 +50,9 @@ export const SearchProduct = () => {
                 return;
             }
             let content = await rawResponse.json();
-            const dependencyIds = content.dependencies||[];
-            const noDependencyIds = content.noDependencies||[];
-            const multiDependencyIds = content.multiDependencies||[];
+            const dependencyIds = content.dependencies || [];
+            const noDependencyIds = content.noDependencies || [];
+            const multiDependencyIds = content.multiDependencies || [];
             let dependencies = [];
             for (let i = 0; i < dependencyIds.length; i++) {
                 route = "http://localhost:3000/product/" + dependencyIds[i];
@@ -85,26 +89,34 @@ export const SearchProduct = () => {
     }, [selectedProduct]);
 
     return (
-        <div>
-            <h4>
-                Produkt / Service suchen
-            </h4>
-            <p>
-                Zum suchen eines Produktes oder Services den Namen eingeben.
-            </p>
-            <ProductSearchBar
-                controlId={"searchProductSearchBar"}
-                labelText={"Produkt / Service"}
-                onChange={event => {setSelectedProduct(event.value)}}
-                options={searchOptions}
-            />
-            <ProductView
-                product={product}
-                dependencies={dependencies}
-                onClick={event => setSelectedProduct(parseInt(event.target.attributes[0].value))}
-                noDependencies={noDependencies}
-                multiDependencies={multiDependencies}
-            />
+        <div className="form-header mt-3">
+            <Row className="justify-content-md-center mx-2">
+                <Col md={7}>
+                    <h4>
+                        Produkt / Service suchen
+                    </h4>
+                    <p>
+                        Zum suchen eines Produktes oder Services den Namen eingeben.
+                    </p>
+                    <ProductSearchBar
+                        controlId={"searchProductSearchBar"}
+                        labelText={"Produkt / Service"}
+                        onChange={event => { setSelectedProduct(event.value) }}
+                        options={searchOptions}
+                    />
+                    <div className="mt-3">
+                        <ProductView
+                            product={product}
+                            dependencies={dependencies}
+                            onClick={event => setSelectedProduct(parseInt(event.target.attributes[0].value))}
+                            noDependencies={noDependencies}
+                            multiDependencies={multiDependencies}
+                        />
+                    </div>
+
+
+                </Col>
+            </Row>
         </div>
     );
 }

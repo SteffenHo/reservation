@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import './form.css';
 import { MultiSelectDependencies } from "./MultiSelectDependencies";
 import { ProductSearchBar } from "./ProductSearchBar";
+import { Row, Col } from 'react-bootstrap'
 
 export const AddDependenciesForm = () => {
     const [selectedProduct, setSelectedProduct] = useState(0);
@@ -114,41 +115,45 @@ export const AddDependenciesForm = () => {
     }, [allDependenciesValue]);
 
     return (
-        <div className="form-header">
-            <h4>
-                Abhängigkeiten hinzufügen / ändern
-            </h4>
-            <p>
-            Zum hinzufügen und ändern von Abhängigkeiten in dem oberen Suchfeld das Produkt / den Service auswählen und 
-            im unteren Suchfeld die Abhängigkeiten eingeben.
-            </p>
-            <ProductSearchBar 
-                controlId={"addDependencySearch"} 
-                labelText={"Produkt / Service"} 
-                onChange={event => {setSelectedProduct(event.value)}}
-                options={options} 
-            />
-            <MultiSelectDependencies
-                controlId={"addDependencyMultiSelect"}
-                labelText={"Schnittstelle-/Abhängigkeiten"}
-                onChange={event => setDependenciesValue(event)}
-                options={dependenciesOptions}
-                value={dependenciesValue}
-            />
-            <MultiSelectDependencies
-                controlId={"addNoDependencyMultiSelect"}
-                labelText={"keine Schnittstelle-/Abhängigkeiten"}
-                onChange={event => setNoDependenciesValue(event)}
-                options={noDependenciesOptions}
-                value={noDependenciesValue}
-            />
-            <MultiSelectDependencies
-                controlId={"addMultiDependencyMultiSelect"}
-                labelText={"mehrstufige Abhängigkeiten"}
-                onChange={event => setMultiDependenciesValue(event)}
-                options={multiDependenciesOptions}
-                value={multiDependenciesValue}
-            />
+        <div className="form-header mt-3">
+            <Row className="justify-content-md-center mx-2">
+                <Col md={7}>
+                    <h4>
+                        Abhängigkeiten hinzufügen / ändern
+                    </h4>
+                    <p>
+                        Zum hinzufügen und ändern von Abhängigkeiten in dem oberen Suchfeld das Produkt / den Service auswählen und
+                        im unteren Suchfeld die Abhängigkeiten eingeben.
+                    </p>
+                    <ProductSearchBar
+                        controlId={"addDependencySearch"}
+                        labelText={"Produkt / Service"}
+                        onChange={event => { setSelectedProduct(event.value) }}
+                        options={options}
+                    />
+                    <MultiSelectDependencies
+                        controlId={"addDependencyMultiSelect"}
+                        labelText={"Schnittstelle-/Abhängigkeiten"}
+                        onChange={event => setDependenciesValue(event)}
+                        options={dependenciesOptions}
+                        value={dependenciesValue}
+                    />
+                    <MultiSelectDependencies
+                        controlId={"addNoDependencyMultiSelect"}
+                        labelText={"keine Schnittstelle-/Abhängigkeiten"}
+                        onChange={event => setNoDependenciesValue(event)}
+                        options={noDependenciesOptions}
+                        value={noDependenciesValue}
+                    />
+                    <MultiSelectDependencies
+                        controlId={"addMultiDependencyMultiSelect"}
+                        labelText={"mehrstufige Abhängigkeiten"}
+                        onChange={event => setMultiDependenciesValue(event)}
+                        options={multiDependenciesOptions}
+                        value={multiDependenciesValue}
+                    />
+                </Col>
+            </Row>
         </div>
     );
 }

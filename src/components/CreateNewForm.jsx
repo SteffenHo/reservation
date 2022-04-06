@@ -1,7 +1,7 @@
 import React from "react";
 import { InputWithLabel } from "./InputWithLabel";
 import './form.css'
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { SelectWithLabel } from "./SelectWithLabel";
 
 export class CreateNewForm extends React.Component {
@@ -79,7 +79,7 @@ export class CreateNewForm extends React.Component {
             externalPatners: this.state.externalPatners,
             otherDepartments: this.state.otherDepartments
         }
-        
+
         if (body.category === 0 || body.serviceLevel === 0) {
             console.log("Kategorie und Servicelevel sind benötigt.");
             return;
@@ -93,7 +93,7 @@ export class CreateNewForm extends React.Component {
             },
             body: JSON.stringify(body)
         });
-        const content = await rawResponse.json();      
+        const content = await rawResponse.json();
         console.log(content);
 
         this.setState({
@@ -103,90 +103,95 @@ export class CreateNewForm extends React.Component {
             department: "",
             serviceLevel: 0,
             externalPatners: "",
-            otherDepartments: ""            
+            otherDepartments: ""
         });
     }
 
     render() {
         const optionsCategory = [
-            {value: 0, label: "Bitte auswählen"},
-            {value: 1, label: "Produkt"},
-            {value: 2, label: "Service"}
+            { value: 0, label: "Bitte auswählen" },
+            { value: 1, label: "Produkt" },
+            { value: 2, label: "Service" }
         ];
 
         const optionsServiceLevel = [
-            {value: 0, label: "Bitte auswählen"},
-            {value: 1, label: "1 - Koord. & Weiter- & Eigenentwicklung"},
-            {value: 2, label: "2 - Koord. & Weiterentwicklung"},
-            {value: 3, label: "3 - nur Koordination"},
-            {value: 4, label: "4 - offen"},
-            {value: 5, label: "5 - keine Interaktion"},
-            {value: 6, label: "n/a"},
-            {value: 7, label: "zu klären"}
+            { value: 0, label: "Bitte auswählen" },
+            { value: 1, label: "1 - Koord. & Weiter- & Eigenentwicklung" },
+            { value: 2, label: "2 - Koord. & Weiterentwicklung" },
+            { value: 3, label: "3 - nur Koordination" },
+            { value: 4, label: "4 - offen" },
+            { value: 5, label: "5 - keine Interaktion" },
+            { value: 6, label: "n/a" },
+            { value: 7, label: "zu klären" }
         ];
 
         return (
-            <div className="form-head">
+            <div className="form-head mt-3">
                 <h4>
                     Neues Produkt / Neuer Service
                 </h4>
                 <p>
                     Zum eintragen eines Produktes oder Services bitte ausfüllen und auf OK drücken.
                 </p>
-                <Form className="form" onSubmit={this.onSubmit}>
-                    <InputWithLabel 
-                        controlId={"createNewName"} 
-                        labelText={"Name"} 
-                        isRequired={true} 
-                        onChange={this.onChangeName} 
-                        value={this.state.name}
-                    />
-                    <SelectWithLabel 
-                        controlId={"createNewCategory"} 
-                        labelText={"Kategorie"} 
-                        options={optionsCategory} 
-                        onChange={this.onChangeCategory}
-                        value={this.state.category}
-                    />
-                    <InputWithLabel 
-                        controlId={"createNewDescription"} 
-                        labelText={"Beschreibung"} 
-                        isRequired={true} 
-                        onChange={this.onChangeDescription}
-                        value={this.state.description}
-                    />
-                    <InputWithLabel 
-                        controlId={"createNewDepartment"} 
-                        labelText={"Zuständiger Fachbereich"} 
-                        isRequired={true} 
-                        onChange={this.onChangeDepartment}
-                        value={this.state.department}
-                    />
-                    <SelectWithLabel 
-                        controlId={"createNewServiceLevel"} 
-                        labelText={"Servicelevel"} 
-                        options={optionsServiceLevel} 
-                        onChange={this.onChangeServiceLevel}
-                        value={this.state.serviceLevel}
-                    />
-                    <InputWithLabel 
-                        controlId={"createNewExternalPatners"} 
-                        labelText={"Externe Partner"} 
-                        isRequired={false} 
-                        onChange={this.onChangeExternalPatners}
-                        value={this.state.externalPatners}
-                    />
-                    <InputWithLabel 
-                        controlId={"createNewOtherDepartments"} 
-                        labelText={"Involvierte Fachbereiche"} 
-                        isRequired={false} 
-                        onChange={this.onChangeOtherDepartments}
-                        value={this.state.otherDepartments}
-                    />
-                    <Button variant={"primary"} type={"submit"} className="button">
-                        Ok
-                    </Button>
-                </Form>
+                <Row className="justify-content-md-center mx-2">
+                    <Col md={7}>
+                        <Form className="form" onSubmit={this.onSubmit}>
+                            <InputWithLabel
+                                controlId={"createNewName"}
+                                labelText={"Name"}
+                                isRequired={true}
+                                onChange={this.onChangeName}
+                                value={this.state.name}
+                            />
+                            <SelectWithLabel
+                                controlId={"createNewCategory"}
+                                labelText={"Kategorie"}
+                                options={optionsCategory}
+                                onChange={this.onChangeCategory}
+                                value={this.state.category}
+                            />
+                            <InputWithLabel
+                                controlId={"createNewDescription"}
+                                labelText={"Beschreibung"}
+                                isRequired={true}
+                                onChange={this.onChangeDescription}
+                                value={this.state.description}
+                            />
+                            <InputWithLabel
+                                controlId={"createNewDepartment"}
+                                labelText={"Zuständiger Fachbereich"}
+                                isRequired={true}
+                                onChange={this.onChangeDepartment}
+                                value={this.state.department}
+                            />
+                            <SelectWithLabel
+                                controlId={"createNewServiceLevel"}
+                                labelText={"Servicelevel"}
+                                options={optionsServiceLevel}
+                                onChange={this.onChangeServiceLevel}
+                                value={this.state.serviceLevel}
+                            />
+                            <InputWithLabel
+                                controlId={"createNewExternalPatners"}
+                                labelText={"Externe Partner"}
+                                isRequired={false}
+                                onChange={this.onChangeExternalPatners}
+                                value={this.state.externalPatners}
+                            />
+                            <InputWithLabel
+                                controlId={"createNewOtherDepartments"}
+                                labelText={"Involvierte Fachbereiche"}
+                                isRequired={false}
+                                onChange={this.onChangeOtherDepartments}
+                                value={this.state.otherDepartments}
+                            />
+                            <Button variant={"primary"} type={"submit"} className="button mt-3">
+                                Produkt / Service anlegen
+                            </Button>
+                        </Form>
+                    </Col>
+                </Row>
+
             </div>
         )
     }

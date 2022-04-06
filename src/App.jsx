@@ -1,14 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 import { BootstrapCard } from './components/Card'
-import {Row, Col, Navbar, Container, Nav} from 'react-bootstrap'
+import { Row, Col, Navbar, Container, Nav } from 'react-bootstrap'
 import { CreateNewForm } from './components/CreateNewForm';
 import { AddDependenciesForm } from './components/AddDependenciesForm';
 import { SearchProduct } from './components/SearchProduct';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { UpdateProduct } from './components/UpdateProduct';
-import React, {useState} from 'react';
- 
+import React, { useState } from 'react';
+
 function App() {
   const [selectedTab, setSelectedTab] = useState(3);
 
@@ -17,9 +17,9 @@ function App() {
       <Navbar bg="light" variant="light">
         <Container>
           <Navbar.Brand>
-            Produkt- / Servicekaterlog
+            <img src='https://www.ernstings-family.de/wcsstore/ErnstingsStorefrontAssetStore/images/ef-logo.png' className="d-inline-block align-top" alt='ef-logo' width={195} height={97} />
           </Navbar.Brand>
-          <Nav variant='tabs' activeKey={selectedTab} onSelect={event => setSelectedTab(parseInt(event))}>
+          <Nav activeKey={selectedTab} onSelect={event => setSelectedTab(parseInt(event))}>
             <Nav.Item>
               <Nav.Link eventKey={1}>
                 Neues Produkt / Neuer Service
