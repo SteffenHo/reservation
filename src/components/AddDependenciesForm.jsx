@@ -6,8 +6,14 @@ import { ProductSearchBar } from "./ProductSearchBar";
 export const AddDependenciesForm = () => {
     const [selectedProduct, setSelectedProduct] = useState(0);
     const [options, setOptions] = useState([]);
+    const [allDependenciesOptions, setAllDependenciesOptions] = useState([]);
+    const [allDependenciesValue, setAllDependenciesValue] = useState([]);
     const [dependenciesOptions, setDependenciesOptions] = useState([]);
     const [dependenciesValue, setDependenciesValue] = useState([]);
+    const [noDependenciesOptions, setNoDependenciesOptions] = useState([]);
+    const [noDependenciesValue, setNoDependenciesValue] = useState([]);
+    const [multiDependenciesOptions, setMultiDependenciesOptions] = useState([]);
+    const [multiDependenciesValue, setMultiDependenciesValue] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,28 +33,85 @@ export const AddDependenciesForm = () => {
         const fetchData = async () => {
             const route = "http://localhost:3000/product/" + selectedProduct + "/dependencies";
             const rawResponse = await fetch(route);
-            let content = [];
+            let contentDependencies = [];
+            let contentNoDependencies = [];
+            let contentMultiDependencies = [];
             if (rawResponse.status === 200) {
                 const rawContent = await rawResponse.json();
-                content = rawContent.dependencies;
+                contentDependencies = rawContent.dependencies;
+                contentNoDependencies = rawContent.noDependencies;
+                contentMultiDependencies = rawContent.multiDependencies;
             }
-            console.log(content);
+            console.log(contentDependencies);
 
             const products = options.filter(product => product.value !== selectedProduct);
-            let defaults = [];
-            for (let i = 0; i < content.length; i++) {
+            let defaultDependencies = [];
+            for (let i = 0; i < contentDependencies.length; i++) {
                 for (let j = 0; j < products.length; j++) {
-                    if (content[i] === products[j].value) {
-                        defaults.push(products[j]);
+                    if (contentDependencies[i] === products[j].value) {
+                        defaultDependencies.push(products[j]);
                     }
                 }
             }
-            console.log(defaults);
-            setDependenciesOptions(products);
-            setDependenciesValue(defaults);
+            let defaultNoDependencies = [];
+            for (let i = 0; i < contentNoDependencies.length; i++) {
+                for (let j = 0; j < products.length; j++) {
+                    if (contentNoDependencies[i] === products[j].value) {
+                        defaultNoDependencies.push(products[j]);
+                    }
+                }
+            }
+            let defaultMultiDependencies = [];
+            for (let i = 0; i < contentMultiDependencies.length; i++) {
+                for (let j = 0; j < products.length; j++) {
+                    if (contentMultiDependencies[i] === products[j].value) {
+                        defaultMultiDependencies.push(products[j]);
+                    }
+                }
+            }
+            console.log(defaultDependencies);
+            setAllDependenciesOptions(products);
+            setDependenciesValue(defaultDependencies);
+            setNoDependenciesValue(defaultNoDependencies);
+            setMultiDependenciesValue(defaultMultiDependencies);
         }
         fetchData();
     }, [selectedProduct]);
+
+    useEffect(() => {
+        setAllDependenciesValue(dependenciesValue.concat(noDependenciesValue).concat(multiDependenciesValue));
+    }, [dependenciesValue, noDependenciesValue, multiDependenciesValue]);
+
+    useEffect(() => {
+        let allDependencies = allDependenciesOptions;
+        for (let i = 0; i < allDependenciesValue.length; i++) {
+            allDependencies = allDependencies.filter(item => item.value !== allDependenciesValue[i].value);
+        }
+        setDependenciesOptions(allDependencies);
+        setNoDependenciesOptions(allDependencies);
+        setMultiDependenciesOptions(allDependencies);
+    }, [allDependenciesValue])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const route = "http://localhost:3000/product/" + selectedProduct + "/dependencies";
+            const rawResponse = await fetch(route, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    dependencies: dependenciesValue.map(item => item.value),
+                    noDependencies: noDependenciesValue.map(item => item.value),
+                    multiDependencies: multiDependenciesValue.map(item => item.value)
+                })
+            });
+            const content = await rawResponse.json();
+            console.log(content);
+        }
+        fetchData();
+    }, [allDependenciesValue]);
 
     return (
         <div className="form-header">
@@ -67,28 +130,24 @@ export const AddDependenciesForm = () => {
             />
             <MultiSelectDependencies
                 controlId={"addDependencyMultiSelect"}
-                labelText={"Abhängigkeiten"}
-                onChange={event => {
-                    setDependenciesValue(event);
-                    (async () => {
-                        const route = "http://localhost:3000/product/" + selectedProduct + "/dependencies";
-                        const rawResponse = await fetch(route, {
-                            method: 'PUT',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                dependencies: event.map(item => item.value)
-                            })
-                        });
-                        const content = await rawResponse.json();
-                      
-                        console.log(content);
-                    })();
-                }}
+                labelText={"Schnittstelle-/Abhängigkeiten"}
+                onChange={event => setDependenciesValue(event)}
                 options={dependenciesOptions}
                 value={dependenciesValue}
+            />
+            <MultiSelectDependencies
+                controlId={"addNoDependencyMultiSelect"}
+                labelText={"keine Schnittstelle-/Abhängigkeiten"}
+                onChange={event => setNoDependenciesValue(event)}
+                options={noDependenciesOptions}
+                value={noDependenciesValue}
+            />
+            <MultiSelectDependencies
+                controlId={"addMultiDependencyMultiSelect"}
+                labelText={"mehrstufige Abhängigkeiten"}
+                onChange={event => setMultiDependenciesValue(event)}
+                options={multiDependenciesOptions}
+                value={multiDependenciesValue}
             />
         </div>
     );

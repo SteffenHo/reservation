@@ -16,26 +16,35 @@ const serviceLevel = {
     7: "zu klären"
 }
 
-export const ProductView = ({
-    product,
-    depenencies,
-    onClick
-}) => {
-    const listElements = depenencies.map((item, index) => {
+function getDependencyList(dependencies) {
+    return dependencies.map((item, index) => {
         return (
             <ListGroup.Item key={index} className="d-flex justify-content-between align-items-start" eventKey={item.id}>
                 <div>
                     <h6>
                         <strong>{item.name}</strong>
                     </h6>
-                    {item.department}
+                    {item.description}
                 </div>
                 <Badge bg="primary" pill>
-                    {item.serviceLevel}
+                    {serviceLevel[item.serviceLevel]}
                 </Badge>
             </ListGroup.Item>
         );
     });
+}
+
+export const ProductView = ({
+    product,
+    dependencies,
+    noDependencies,
+    multiDependencies,
+    onClick
+}) => {
+    const dependencyList = dependencies ? getDependencyList(dependencies) : [];
+    const noDependencyList = noDependencies ? getDependencyList(noDependencies) : [];
+    const multiDependencyList = multiDependencies ? getDependencyList(multiDependencies) : [];
+    console.log(dependencyList, dependencies);
     if ("name" in product) {
         let productCategory = product.category;
         let productServiceLevel = product.serviceLevel;
@@ -61,9 +70,24 @@ export const ProductView = ({
                     <p>
                         Externe Patner: {productextrenalPatners}, Involvierte Fachbereiche: {productotherDepartments}
                     </p>
+                    <p>
+                        Schnittstelle-/Abhängigkeiten
+                    </p>
                 </Card.Text>
                 <ListGroup onClick={onClick}>
-                    {listElements}
+                    {dependencyList}
+                </ListGroup>
+                <Card.Text>
+                    keine Schnittstelle-/Abhängigkeiten
+                </Card.Text>
+                <ListGroup onClick={onClick}>
+                    {noDependencyList}
+                </ListGroup>
+                <Card.Text>
+                    mehrstufige Abhängigkeiten
+                </Card.Text>
+                <ListGroup onClick={onClick}>
+                    {multiDependencyList}
                 </ListGroup>
             </Card>
         );

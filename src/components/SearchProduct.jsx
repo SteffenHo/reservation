@@ -7,6 +7,8 @@ export const SearchProduct = () => {
     const [selectedProduct, setSelectedProduct] = useState(0);
     const [product, setProduct] = useState({});
     const [dependencies, setDependencies] = useState([]);
+    const [noDependencies, setNoDependencies] = useState([]);
+    const [multiDependencies, setMultiDependencies] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,8 +46,10 @@ export const SearchProduct = () => {
                 return;
             }
             let content = await rawResponse.json();
-            const dependencyIds = content.dependencies;
-            let dependencies = []
+            const dependencyIds = content.dependencies||[];
+            const noDependencyIds = content.noDependencies||[];
+            const multiDependencyIds = content.multiDependencies||[];
+            let dependencies = [];
             for (let i = 0; i < dependencyIds.length; i++) {
                 route = "http://localhost:3000/product/" + dependencyIds[i];
                 rawResponse = await fetch(route);
@@ -54,7 +58,28 @@ export const SearchProduct = () => {
                     dependencies.push(content);
                 }
             }
+            let noDependencies = [];
+            for (let i = 0; i < noDependencyIds.length; i++) {
+                route = "http://localhost:3000/product/" + noDependencyIds[i];
+                rawResponse = await fetch(route);
+                if (rawResponse.status === 200) {
+                    content = await rawResponse.json();
+                    noDependencies.push(content);
+                }
+            }
+            let multiDependencies = [];
+            for (let i = 0; i < multiDependencyIds.length; i++) {
+                route = "http://localhost:3000/product/" + multiDependencyIds[i];
+                rawResponse = await fetch(route);
+                if (rawResponse.status === 200) {
+                    content = await rawResponse.json();
+                    multiDependencies.push(content);
+                }
+            }
+            console.log(dependencies);
             setDependencies(dependencies);
+            setNoDependencies(noDependencies);
+            setMultiDependencies(multiDependencies);
         }
         fetchData();
     }, [selectedProduct]);
@@ -75,8 +100,10 @@ export const SearchProduct = () => {
             />
             <ProductView
                 product={product}
-                depenencies={dependencies}
+                dependencies={dependencies}
                 onClick={event => setSelectedProduct(parseInt(event.target.attributes[0].value))}
+                noDependencies={noDependencies}
+                multiDependencies={multiDependencies}
             />
         </div>
     );
