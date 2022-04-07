@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ProductSearchBar } from "./ProductSearchBar";
 import { InputWithLabel } from "./InputWithLabel";
 import { SelectWithLabel } from "./SelectWithLabel";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Modal } from "react-bootstrap";
 import './form.css';
 
 
@@ -33,6 +33,7 @@ export const UpdateProduct = () => {
     const [serviceLevel, setServiceLevel] = useState(0);
     const [externalPatners, setExternalPatners] = useState("");
     const [otherDepartments, setOtherDepartments] = useState("");
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -87,11 +88,27 @@ export const UpdateProduct = () => {
             });
             const content = await rawResponse.json();
             console.log(content);
+            setShowModal(true);
         })();
     }
 
     return (
         <div className="form-header mt-3">
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        Änderung erfolgreich
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Die Änderungen am Produkt / Service {name} wurden Erfolgreich abgespeichert.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>
+                        Ok
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             <Row className="justify-content-md-center mx-2">
                 <Col md={7}>
                     <h4>

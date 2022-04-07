@@ -4,19 +4,23 @@ import React, {useState} from "react";
 export const InfoModal = ({
     modalHeading,
     modalBody,
-    show
+    showModal,
+    onClose
 }) => {
     const [show, setShow] = useState(false);
 
-    const onClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        onClose();
+    }
 
-    if (show) {
+    if (showModal) {
         setShow(true);
     }
 
     return (
         <div>
-            <Modal show={show} onHide={onClose}>
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         {modalHeading}
@@ -26,7 +30,7 @@ export const InfoModal = ({
                     {modalBody}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={onClose}>
+                    <Button variant="secondary" onClick={handleClose}>
                         Ok
                     </Button>
                 </Modal.Footer>

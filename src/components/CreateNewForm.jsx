@@ -3,6 +3,7 @@ import { InputWithLabel } from "./InputWithLabel";
 import './form.css'
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { SelectWithLabel } from "./SelectWithLabel";
+import { InfoModal } from "./InfoModal";
 
 export class CreateNewForm extends React.Component {
     constructor(props) {
@@ -14,7 +15,8 @@ export class CreateNewForm extends React.Component {
             department: "",
             serviceLevel: 0,
             externalPatners: "",
-            otherDepartments: ""
+            otherDepartments: "",
+            showModal: false
         }
         this.onChangeCategory = this.onChangeCategory.bind(this);
         this.onChangeDepartment = this.onChangeDepartment.bind(this);
@@ -24,6 +26,7 @@ export class CreateNewForm extends React.Component {
         this.onChangeOtherDepartments = this.onChangeOtherDepartments.bind(this);
         this.onChangeServiceLevel = this.onChangeServiceLevel.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onCloseModal = this.onCloseModal.bind(this);
     }
 
     onChangeName(event) {
@@ -80,8 +83,10 @@ export class CreateNewForm extends React.Component {
             otherDepartments: this.state.otherDepartments
         }
 
-        if (body.category === 0 || body.serviceLevel === 0) {
-            console.log("Kategorie und Servicelevel sind benötigt.");
+        if (body.category === 0) {
+            this.setState({
+                showModal: false
+            });
             return;
         }
 
@@ -107,6 +112,12 @@ export class CreateNewForm extends React.Component {
         });
     }
 
+    onCloseModal() {
+        this.setState({
+            showModal: false
+        });
+    }
+
     render() {
         const optionsCategory = [
             { value: 0, label: "Bitte auswählen" },
@@ -127,6 +138,12 @@ export class CreateNewForm extends React.Component {
 
         return (
             <div className="form-head mt-3">
+                <InfoModal 
+                    modalHeading={"Titel"}
+                    modalBody={"Text"}
+                    showModal={this.state.showModal}
+                    onClose={this.onCloseModal}
+                />
                 <h4>
                     Neues Produkt / Neuer Service
                 </h4>
