@@ -4,8 +4,6 @@ import { ProductView } from "./ProductView";
 import { Row, Col } from 'react-bootstrap'
 import './form.css';
 
-
-
 export const SearchProduct = () => {
     const [searchOptions, setSearchOptions] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(0);
