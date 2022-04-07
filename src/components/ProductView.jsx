@@ -4,7 +4,8 @@ import './form.css'
 
 const productService = {
     1: "Produkt",
-    2: "Service"
+    2: "Service",
+    3: "zu klären"
 }
 
 const serviceLevel = {
@@ -49,13 +50,14 @@ export const ProductView = ({
     if ("name" in product) {
         let productCategory = product.category;
         let productServiceLevel = product.serviceLevel;
-        let productPartners = product.extrenalPatners;
+        let productPartners = product.externalPatners;
         let productDepartments = product.otherDepartments;
         console.log(productCategory, productServiceLevel, productPartners);
         const productcategory = productService[productCategory];
         const productserviceLevel = serviceLevel[productServiceLevel];
         const productextrenalPatners = productPartners ? productPartners : "keine";
-        const productotherDepartments = productDepartments  ? productDepartments : "keine";
+        const productotherDepartments = productDepartments ? productDepartments : "keine";
+        console.log(productPartners, product);
         return (
             <Card className="left-text">
                 <Card.Header as="h6">
