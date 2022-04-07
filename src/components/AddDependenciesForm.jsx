@@ -15,6 +15,8 @@ export const AddDependenciesForm = () => {
     const [noDependenciesValue, setNoDependenciesValue] = useState([]);
     const [multiDependenciesOptions, setMultiDependenciesOptions] = useState([]);
     const [multiDependenciesValue, setMultiDependenciesValue] = useState([]);
+    const [name, setName] = useState("");
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -128,7 +130,7 @@ export const AddDependenciesForm = () => {
                     <ProductSearchBar
                         controlId={"addDependencySearch"}
                         labelText={"Produkt / Service"}
-                        onChange={event => { setSelectedProduct(event.value) }}
+                        onChange={event => setSelectedProduct(event.value)}
                         options={options}
                     />
                     <MultiSelectDependencies

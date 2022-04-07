@@ -101,7 +101,7 @@ export const UpdateProduct = () => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Die Änderungen am Produkt / Service {name} wurden Erfolgreich abgespeichert.
+                    Die Änderungen am Produkt / Service {name} waren Erfolgreich.
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowModal(false)}>

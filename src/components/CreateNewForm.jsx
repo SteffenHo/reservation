@@ -1,9 +1,8 @@
 import React from "react";
 import { InputWithLabel } from "./InputWithLabel";
 import './form.css'
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Modal } from "react-bootstrap";
 import { SelectWithLabel } from "./SelectWithLabel";
-import { InfoModal } from "./InfoModal";
 
 export class CreateNewForm extends React.Component {
     constructor(props) {
@@ -16,7 +15,9 @@ export class CreateNewForm extends React.Component {
             serviceLevel: 0,
             externalPatners: "",
             otherDepartments: "",
-            showModal: false
+            showModal: false,
+            modalTitle: "",
+            modalText: ""
         }
         this.onChangeCategory = this.onChangeCategory.bind(this);
         this.onChangeDepartment = this.onChangeDepartment.bind(this);
@@ -26,7 +27,6 @@ export class CreateNewForm extends React.Component {
         this.onChangeOtherDepartments = this.onChangeOtherDepartments.bind(this);
         this.onChangeServiceLevel = this.onChangeServiceLevel.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.onCloseModal = this.onCloseModal.bind(this);
     }
 
     onChangeName(event) {
@@ -85,7 +85,18 @@ export class CreateNewForm extends React.Component {
 
         if (body.category === 0) {
             this.setState({
-                showModal: false
+                showModal: true,
+                modalTitle: "Fehlende Angabe",
+                modalText: "Bitte geben sie die Kategorie an!"
+            });
+            return;
+        }
+
+        if (body.serviceLevel === 0) {
+            this.setState({
+                showModal: true,
+                modalTitle: "Fehlende Angabe",
+                modalText: "Bitte geben sie das Servicelevel an!"
             });
             return;
         }
@@ -108,13 +119,10 @@ export class CreateNewForm extends React.Component {
             department: "",
             serviceLevel: 0,
             externalPatners: "",
-            otherDepartments: ""
-        });
-    }
-
-    onCloseModal() {
-        this.setState({
-            showModal: false
+            otherDepartments: "",
+            showModal: true,
+            modalTitle: "Anlegen erfolgreich",
+            modalText: "Das Produkt " + body.name + " wurde erfolgreich angelegt."
         });
     }
 
@@ -138,12 +146,21 @@ export class CreateNewForm extends React.Component {
 
         return (
             <div className="form-head mt-3">
-                <InfoModal 
-                    modalHeading={"Titel"}
-                    modalBody={"Text"}
-                    showModal={this.state.showModal}
-                    onClose={this.onCloseModal}
-                />
+                <Modal show={this.state.showModal} onHide={() => this.setState({showModal: false})}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        {this.state.modalTitle}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {this.state.modalText}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => this.setState({showModal: false})}>
+                        Ok
+                    </Button>
+                </Modal.Footer>
+                </Modal>
                 <h4>
                     Neues Produkt / Neuer Service
                 </h4>
