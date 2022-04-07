@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, ListGroup, Badge } from "react-bootstrap";
+import './form.css'
 
 const productService = {
     1: "Produkt",
@@ -56,19 +57,22 @@ export const ProductView = ({
         const productextrenalPatners = productPartners ? productPartners : "keine";
         const productotherDepartments = productDepartments  ? productDepartments : "keine";
         return (
-            <Card>
+            <Card className="left-text">
                 <Card.Header as="h6">
                     {product.name}
                 </Card.Header>
                 <Card.Text>
                     <p>
-                        {productcategory} | {product.department} | {productserviceLevel}
+                        Kategory: {productcategory} <br />
+                        Abteilung: {product.department} <br />
+                        SLA: {productserviceLevel}
                     </p>
                     <p>
                         {product.description}
                     </p>
                     <p>
-                        Externe Patner: {productextrenalPatners}, Involvierte Fachbereiche: {productotherDepartments}
+                        Externe Patner: {productextrenalPatners}, <br />
+                        Involvierte Fachbereiche: {productotherDepartments}
                     </p>
                     <p>
                         Schnittstelle-/Abhängigkeiten
