@@ -15,7 +15,7 @@ export class DataInput extends React.Component {
     render() {
         return (
             <div>
-                <WelcomeText name={this.props.name == "" ? "EComIT" : this.props.name}/>
+                <WelcomeText name={this.props.name == "" ? "E-Com IT" : this.props.name}/>
                 <DataInputForm 
                     name={this.props.name} 
                     onChange={this.props.onChange} 
